@@ -1,6 +1,12 @@
 import React from "react";
 
 export const NewsLetterBox = () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    // Add your form submission logic here
+    alert("Thank you for subscribing!");
+  };
+
   return (
     <div className="text-center">
       <p className="text-2xl font-medium text-gray-800">
@@ -10,7 +16,10 @@ export const NewsLetterBox = () => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
         odio. Praesent libero. Sed cursus ante dapibus diam.
       </p>
-      <form className="mt-5">
+      <form
+        onSubmit={onSubmitHandler}
+        className="w-ful sm:w-1/2 flex itmes-center gap-3 mx-auto my-6 border pl-3"
+      >
         <input
           className="w-full sm:flex-1 outline-none"
           type="email"
@@ -21,7 +30,7 @@ export const NewsLetterBox = () => {
           type="submit"
           className="bg-black text-white text-xs px-10 py-4"
         >
-          Suscribe
+          SUSCRIBE
         </button>
       </form>
     </div>
