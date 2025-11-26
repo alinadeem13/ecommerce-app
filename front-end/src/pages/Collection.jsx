@@ -12,9 +12,49 @@ const Collection = () => {
   const [categoryFilters, setCategoryFilters] = useState([]);
   const [subCategoryFilters, setSubCategoryFilters] = useState([]);
 
+  const toggleCategoryFilter = (e) => {
+    if (categoryFilters.includes(e.target.value)) {
+      setCategoryFilters(
+        categoryFilters.filter((item) => item !== e.target.value)
+      );
+    } else {
+      setCategoryFilters([...categoryFilters, e.target.value]);
+    }
+  };
+
+  const toggleSubCategoryFilter = (e) => {
+    if (subCategoryFilters.includes(e.target.value)) {
+      setSubCategoryFilters(
+        subCategoryFilters.filter((item) => item !== e.target.value)
+      );
+    } else {
+      setSubCategoryFilters([...subCategoryFilters, e.target.value]);
+    }
+  };
+
+  const filterLogic = () => {
+    let updatedList = products;
+    if (categoryFilters.length > 0) {
+      updatedList = updatedList.filter((item) =>
+        categoryFilters.includes(item?.category)
+      );
+    }
+    if (subCategoryFilters.length > 0) {
+      updatedList = updatedList.filter((item) =>
+        subCategoryFilters.includes(item?.subCategory)
+      );
+    }
+    setFilterProducts(updatedList);
+    console.log("Filtered Products:", updatedList);
+  };
+
   useEffect(() => {
     setFilterProducts(products);
   }, [products]);
+
+  useEffect(() => {
+    filterLogic();
+  }, [categoryFilters, subCategoryFilters]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 pb-20 border-t">
@@ -41,17 +81,32 @@ const Collection = () => {
 
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value="Men" />
+              <input
+                className="w-3"
+                type="checkbox"
+                value="Men"
+                onClick={toggleCategoryFilter}
+              />
               Men
             </label>
 
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value="Women" />
+              <input
+                className="w-3"
+                type="checkbox"
+                value="Women"
+                onClick={toggleCategoryFilter}
+              />
               Women
             </label>
 
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value="Kids" />
+              <input
+                className="w-3"
+                type="checkbox"
+                value="Kids"
+                onClick={toggleCategoryFilter}
+              />
               Kids
             </label>
           </div>
@@ -68,17 +123,32 @@ const Collection = () => {
 
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value={"Topwear"} />
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Topwear"}
+                onClick={toggleSubCategoryFilter}
+              />
               Topwear
             </label>
 
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value={"Bottomwear"} />
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Bottomwear"}
+                onClick={toggleSubCategoryFilter}
+              />
               Bottomwear
             </label>
 
             <label className="flex gap-2 items-center">
-              <input className="w-3" type="checkbox" value={"Winterwear"} />
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Winterwear"}
+                onClick={toggleSubCategoryFilter}
+              />
               Winterwear
             </label>
           </div>
