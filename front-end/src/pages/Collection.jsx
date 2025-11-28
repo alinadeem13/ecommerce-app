@@ -57,7 +57,7 @@ const Collection = () => {
     filterLogic();
   }, [categoryFilters, subCategoryFilters]);
 
-  const sortProducts = (e) => {
+  const sortProducts = () => {
     let filterProductsCopy = filterProducts.slice(); // Create a copy to avoid mutating state directly
 
     switch (sortType) {
