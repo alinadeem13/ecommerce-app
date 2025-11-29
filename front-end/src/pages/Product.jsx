@@ -1,7 +1,81 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopCIntext";
+import { assets } from "../assets/assets";
 
 const Product = () => {
-  return <div>Product</div>;
+  const { productId } = useParams();
+  const { products, currency } = useContext(ShopContext);
+
+  const [productData, setProductData] = useState(null);
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    if (!products || products.length === 0) return;
+
+    const found = products.find((p) => p._id === productId);
+
+    if (found) {
+      setProductData(found);
+      setImage(found.image[0]);
+    } else {
+      setProductData(null);
+    }
+  }, [productId, products]);
+
+  return productData ? (
+    <div className="border-t-2 pt-10 opacity-100">
+      <div className="flex gap-12 sm:gap-12 flex-col sm:flex-row">
+        {/* Images Section */}
+        <div className="flex-1 flex flex-col-reverse sm:flex-row gap-3">
+          <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
+            {productData.image.map((item, index) => (
+              <img
+                key={index}
+                src={item}
+                alt=""
+                className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer "
+                onClick={() => setImage(item)}
+              />
+            ))}
+          </div>
+
+          {/* Main Image */}
+          <div className="w-full sm:w-[80%]">
+            <img
+              onClick={() => setImage(image)}
+              src={image}
+              alt="Image"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+        {/* Product Informations */}
+        <div className="flex-1">
+          <h1 className="fint-medium text-2xl mt-2">{productData?.name}</h1>
+          <div className="flex item-center gap-1 mt-2">
+            <img src={assets?.star_icon} alt=" " className="w-3 5" />
+
+            <img src={assets?.star_icon} alt=" " className="w-3 5" />
+
+            <img src={assets?.star_icon} alt=" " className="w-3 5" />
+
+            <img src={assets?.star_icon} alt=" " className="w-3 5" />
+
+            <img src={assets?.star_dull_icon} alt=" " className="w-3 5" />
+            <p className="pl-2">(122)</p>
+          </div>
+          <p className="mt-5 text-3xl font-medium">
+            {currency}
+            {productData?.price}
+          </p>
+          <p className="mt-5 text-gray-500 md:w-4/5">
+            {productData?.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  ) : null;
 };
 
 export default Product;
