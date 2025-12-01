@@ -5,7 +5,7 @@ import Title from "../components/Title";
 import ProductsItems from "../components/ProductsItems";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilters, setShowFilters] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
 
@@ -35,6 +35,13 @@ const Collection = () => {
 
   const filterLogic = () => {
     let updatedList = products;
+
+    if (showSearch && search.trim() !== "") {
+      updatedList = updatedList.filter((item) =>
+        item?.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     if (categoryFilters.length > 0) {
       updatedList = updatedList.filter((item) =>
         categoryFilters.includes(item?.category)
@@ -55,7 +62,7 @@ const Collection = () => {
 
   useEffect(() => {
     filterLogic();
-  }, [categoryFilters, subCategoryFilters]);
+  }, [categoryFilters, subCategoryFilters, search, showSearch]);
 
   const sortProducts = () => {
     let filterProductsCopy = filterProducts.slice(); // Create a copy to avoid mutating state directly
